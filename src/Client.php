@@ -6,6 +6,9 @@ use Psr\Http\Message\ResponseInterface;
 use React\Http\Browser;
 use React\Promise\PromiseInterface;
 
+/**
+ * inspired by: https://github.com/Art-of-WiFi/UniFi-API-client/blob/master/src/Client.php#L33
+ */
 class Client
 {
 
