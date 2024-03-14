@@ -4,6 +4,7 @@ namespace SkyDiablo\Ubiquiti\Unifi\Controller\ApiClient;
 
 use Psr\Http\Message\ResponseInterface;
 use React\Http\Browser;
+use React\Promise\PromiseInterface;
 
 class Client
 {
@@ -12,7 +13,14 @@ class Client
 
     public function __construct(string $baseUri)
     {
-        $this->browser = (new Browser())->withBase($baseUri);
+        $connector = new \React\Socket\Connector([
+            'dns' => false,
+            'tls' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false
+            ]
+        ]);
+        $this->browser = (new Browser($connector))->withBase($baseUri);
     }
 
     protected function defaultHeader()
@@ -20,16 +28,24 @@ class Client
         return [];
     }
 
-    protected function httpGet(string $uri, array $header = [])
+    /**
+     * @param string $uri
+     * @param array $header
+     * @return PromiseInterface<array>
+     */
+    protected function httpGet(string $uri, array $header = []): PromiseInterface
     {
-        $this->browser->get($uri, $header + $this->defaultHeader())->then(function (ResponseInterface $response) {
-            return json_decode($response->getBody()->getContents());
+        return $this->browser->get($uri, $header + $this->defaultHeader())->then(function (ResponseInterface $response) {
+            var_dump($response->getHeaders());
+            return json_decode($response->getBody()->getContents(), true);
         });
     }
 
-    protected function login()
+    public function login()
     {
-
+        $this->httpGet('/')->then(function ($data) {
+            var_dump($data);
+        });
     }
 
 
