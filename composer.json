@@ -1,0 +1,19 @@
+{
+    "name": "skydiablo/reactphp-unifi-controller-api-client",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SkyDiablo\\Ubiquiti\\Unifi\\Controller\\ApiClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "SkyDiablo",
+            "email": "skydiablo@gmx.net"
+        }
+    ],
+    "require": {
+        "react/http": "^1.9"
+    }
+}
